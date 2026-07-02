@@ -5,6 +5,7 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "api-opendata-scot",
+	"account_id": "e645229a1cd09d55c931a73f478f1756",
 	"main": "src/index.ts",
 	"compatibility_date": "2026-07-02",
 	"observability": {
@@ -13,6 +14,12 @@
 	"upload_source_maps": true,
 	"compatibility_flags": [
 		"nodejs_compat"
+	],
+	"routes": [
+		{
+			"pattern": "api.opendata.scot",
+			"custom_domain": true
+		}
 	]
 	/**
 	 * Smart Placement
