@@ -1,18 +1,41 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Bind resources to your worker in `wrangler.jsonc`. After adding bindings, a type definition for the
- * `Env` object can be regenerated with `npm run cf-typegen`.
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+import { Hono } from "hono";
+import stats, { statsRoutes } from "./routes/stats";
+import { buildOpenApiSpec, RouteGroup } from "./openapi";
+import { swaggerUI } from "@hono/swagger-ui";
 
-export default {
-	async fetch(request, env, ctx): Promise<Response> {
-		return new Response("Hello World! Build test");
+const app = new Hono();
+
+// ROUTES - Map any endpoint logic here.
+app.route("/stats", stats);
+
+// OPENAPI ROUTE GROUPS - Add any new route groups here to be included in the OpenAPI spec.
+const routeGroups: RouteGroup[] = [
+	{
+		basePath: "/stats",
+		routes: statsRoutes,
+		defaultTags: ["Statistics"],
 	},
-} satisfies ExportedHandler<Env>;
+];
+
+const openApiDocument = buildOpenApiSpec(routeGroups, {
+	info: {
+		title: "Open Data Scotland API",
+		version: "1.0.0",
+		description: "API for backend for opendata.scot.",
+	},
+	servers: [
+		{ url: "http://localhost:8787", description: "Local dev" },
+		{ url: "https://api.opendata.scot", description: "Production" }		
+	],
+});
+
+app.get("/openapi.json", (c) => c.json(openApiDocument));
+app.get(
+	"/docs",
+	swaggerUI({
+		url: "/openapi.json",
+		title: "Open Data Scotland API docs",
+	})
+);
+
+export default app;
