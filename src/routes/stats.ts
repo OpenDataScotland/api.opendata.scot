@@ -22,8 +22,7 @@ const popularDatasetsHandler: Handler = async (c) => {
 		?.map((row: any) => ({
 			page: row.dimensions?.[0],
 			visitors: row.metrics?.[0],
-		}))
-		.slice(0, 5);
+		}));
 
 	return c.json(transformedResults);
 };
