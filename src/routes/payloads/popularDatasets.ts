@@ -1,6 +1,6 @@
-export const buildPopularDatasetsPayload = () => ({
+export const buildPopularDatasetsPayload = (relativeDate: string) => ({
   date_range: "7d",
-  relative_date: new Date().toISOString().split('T')[0],
+  relative_date: relativeDate,
   dimensions: ["event:page"],
   metrics: ["visitors"],
   filters: [["contains", "event:page", ["/datasets/"], { case_sensitive: false }]],

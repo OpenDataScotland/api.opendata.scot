@@ -3,7 +3,8 @@ import { applyRoutesToRouter, Handler, OpenApiRoute } from '../openapi';
 import { buildPopularDatasetsPayload } from './payloads/popularDatasets';
 
 const popularDatasetsHandler: Handler = async (c) => {
-	const popularDatasetsPayload = buildPopularDatasetsPayload();
+	const relativeDate = new Date().toISOString().split('T')[0];
+	const popularDatasetsPayload = buildPopularDatasetsPayload(relativeDate);
 
 	const response = await fetch('https://plausible.io/api/stats/opendata.scot/query/', {
 		method: 'POST',
