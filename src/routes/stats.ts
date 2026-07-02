@@ -1,9 +1,9 @@
 import { Hono } from 'hono';
 import { applyRoutesToRouter, Handler, OpenApiRoute } from '../openapi';
-import { popularDatasetsPayload } from './payloads/popularDatasets';
+import { buildPopularDatasetsPayload } from './payloads/popularDatasets';
 
 const popularDatasetsHandler: Handler = async (c) => {
-	console.log(popularDatasetsPayload);
+	const popularDatasetsPayload = buildPopularDatasetsPayload();
 
 	const response = await fetch('https://plausible.io/api/stats/opendata.scot/query/', {
 		method: 'POST',

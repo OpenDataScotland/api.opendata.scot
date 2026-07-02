@@ -1,4 +1,4 @@
-export const popularDatasetsPayload = {
+export const buildPopularDatasetsPayload = () => ({
   date_range: "7d",
   relative_date: new Date().toISOString().split('T')[0],
   dimensions: ["event:page"],
@@ -19,4 +19,4 @@ export const popularDatasetsPayload = {
     empty_metrics: false,
     present_index: false,
   },
-};
+});
