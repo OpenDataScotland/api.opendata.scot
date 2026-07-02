@@ -6,9 +6,8 @@ import { cors } from "hono/cors";
 
 const app = new Hono();
 
-// CORS - Allow requests from opendata.scot and its subdomains, but block all other origins.
-const allowedOriginPattern = /^https?:\/\/([\w-]+\.)*opendata\.scot$/i;
-
+// CORS - Allow requests from opendata.scot, its subdomains and localhost but block all other origins.
+const allowedOriginPattern = /^https?:\/\/(localhost(?::\d+)?|([\w-]+\.)*opendata\.scot)$/i;
 app.use(
 	"*",
 	cors({
